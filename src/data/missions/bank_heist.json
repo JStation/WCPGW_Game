@@ -1,38 +1,107 @@
 {
   "name":"The Bank Heist",
-  "reward_min": 1000,
-  "reward_max": 2500,
+  "reward_min": 0,
+  "reward_max": 0,
   "objectives": [
     {
-      "id":"getaway",
-      "name":"The Getaway",
-      "traits": [
+      "id":"guards",
+      "name":"Take care of the guards",
+      "solutions":[
         {
-          "trait":"getaway",
-          "min":3,
-          "max":10
+          "name":"Ask gaurds to lay on the floor with everyone else",
+          "type":"assigned",
+          "traits": {
+            "charm": "1-3"
+          }
+        },
+        {
+          "name":"Kill the guards",
+          "type":"all",
+          "traits": {
+            "force": "5-10"
+          }
         }
       ]
     },
     {
       "id":"vault",
       "name":"The Vault",
-      "traits": [
+      "reward_min": 1500,
+      "reward_max": 2500,
+      "solutions": [
         {
-          "trait":"vault_cracking",
-          "min":1,
-          "max":5
+          "name":"Break into the vault",
+          "type":"assigned",
+          "traits": {
+            "tech": "1-5"
+          }
         }
       ]
     },
     {
-      "id":"guns",
-      "name":"Guns",
-      "traits": [
+      "id":"safety_deposit_boxes",
+      "name":"Safety Deposit Boxes",
+      "reward_min": 1500,
+      "reward_max": 2500,
+      "objectives_required":[
+        "vault"
+      ],
+      "solutions": [
         {
-          "trait":"firepower",
-          "min":1,
-          "max":3
+          "name":"Get the keys to the deposit boxes.",
+          "type":"assigned",
+          "traits": {
+            "charm": "3-7"
+          }
+        },
+        {
+          "name":"Break into the deposit boxes.",
+          "type":"assigned",
+          "traits": {
+            "tech": "3-7"
+          }
+        }
+      ]
+    },
+    {
+      "id":"teller_registers",
+      "name":"Teller Registers",
+      "reward_min": 200,
+      "reward_max": 500,
+      "solutions": [
+        {
+          "name":"Ask the tellers nicely for their money.",
+          "type":"assigned",
+          "traits": {
+            "charm": "3-7"
+          }
+        },
+        {
+          "name":"You asked nicely, now they get what's coming to them.",
+          "type":"assigned",
+          "traits": {
+            "force": "3-7"
+          }
+        }
+      ]
+    },
+    {
+      "id":"getaway",
+      "name":"The Getaway",
+      "solutions":[
+        {
+          "name":"Get back to the hideout.",
+          "type":"assigned",
+          "traits": {
+            "getaway": "3-10"
+          }
+        },
+        {
+          "name":"Shootout.",
+          "type":"all",
+          "traits": {
+            "charm": "3-10"
+          }
         }
       ]
     }
@@ -44,12 +113,9 @@
       "description":"Cops are on your tail, let's hope our getaway team has what it takes.",
       "objective":"getaway",
       "chance":50,
-      "traits":[
-        {
-          "trait":"getaway",
-          "value":3
-        }
-      ]
+      "traits": {
+        "getaway": 3
+      }
     },
     {
       "id":"undercover_cop",
@@ -57,12 +123,10 @@
       "description":"There was an undercover cop in the bank!",
       "objective":"guns",
       "chance":25,
-      "traits":[
-        {
-          "trait":"firepower",
-          "value":5
-        }
-      ]
+      "traits":{
+        "force":5,
+        "getaway":5
+      }
     }
   ]
 }
