@@ -16,6 +16,8 @@ class game_cmd(cmd.Cmd, object):
         g = Goon()
         print("Name: %s\nType: %s" % (g.name, g.type))
 
+        if s!=None:
+            print(g.generateTraits())
     # example to create a command in interpreter
     # anything with a do_ prefix is a command
     def do_echosomething(self, s):
