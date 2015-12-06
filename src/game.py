@@ -1,5 +1,5 @@
 import cmd
-from Goon import Goon
+from goon import Goon
 
 
 assets = []
