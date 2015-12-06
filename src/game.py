@@ -1,4 +1,4 @@
-import cmd
+import cmd, random
 import os
 import json
 from asset import Asset
@@ -8,12 +8,14 @@ from player import Player
 
 class Game(object):
     PATH_ASSETS = 'data/assets/'
+    PATH_GOON_DATA = 'data/goons/'
 
     def __init__(self):
         self._assets = []
         self._player = Player()
 
         self.load_assets()
+        self.load_goon_data()
 
     def load_assets(self):
         for asset in Game.load_json_objects(self.PATH_ASSETS):
@@ -23,6 +25,12 @@ class Game(object):
         for asset in self._assets:
             if asset_id == asset.asset_id:
                 return asset
+
+    def load_goon_data(self):
+        self._goon_data = {}
+        for json_file in Game.load_json_objects(self.PATH_GOON_DATA):
+            for category in json_file:
+                self._goon_data[category] = json_file[category]
 
     @staticmethod
     def load_json_objects(json_path):
@@ -41,9 +49,10 @@ class game_cmd(cmd.Cmd, object):
     def do_newgoon(self, s):
         g = Goon()
         print("Name: %s\nType: %s" % (g.name, g.type))
+        print(g.generateTraits())
 
-        if s!=None:
-            print(g.generateTraits())
+
+
     # example to create a command in interpreter
     # anything with a do_ prefix is a command
     def do_echosomething(self, s):
