@@ -1,21 +1,26 @@
-import cmd, random
+import cmd
 import os
 import json
 from asset import Asset
+from mission import Mission
 from goon import Goon
 from player import Player
 
 
 class Game(object):
     PATH_ASSETS = 'data/assets/'
+    PATH_MISSIONS = 'data/missions/'
     PATH_GOON_DATA = 'data/goons/'
 
     def __init__(self):
         self._assets = []
+        self._missions = []
         self._player = Player()
 
         self.load_assets()
+        self.load_missions()
         self.load_goon_data()
+
 
     def load_assets(self):
         for asset in Game.load_json_objects(self.PATH_ASSETS):
@@ -25,6 +30,10 @@ class Game(object):
         for asset in self._assets:
             if asset_id == asset.asset_id:
                 return asset
+
+    def load_missions(self):
+        for mission in Game.load_json_objects(self.PATH_MISSIONS):
+            self._assets.append(Mission.from_json(mission))
 
     def load_goon_data(self):
         goon_data = {}

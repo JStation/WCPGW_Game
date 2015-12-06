@@ -1,5 +1,8 @@
 {
-  "name":"The Bank Heist",
+  "id":"bank_job",
+  "name":"The Bank Job",
+  "description":"Rob a bank.",
+  "category":"heist",
   "reward_min": 0,
   "reward_max": 0,
   "objectives": [
@@ -8,6 +11,7 @@
       "name":"Take care of the guards",
       "solutions":[
         {
+          "id":"charm_guards",
           "name":"Ask gaurds to lay on the floor with everyone else",
           "type":"assigned",
           "traits": {
@@ -15,6 +19,7 @@
           }
         },
         {
+          "id":"kill_guards",
           "name":"Kill the guards",
           "type":"all",
           "traits": {
@@ -30,6 +35,7 @@
       "reward_max": 2500,
       "solutions": [
         {
+          "id":"break_in",
           "name":"Break into the vault",
           "type":"assigned",
           "traits": {
@@ -48,6 +54,7 @@
       ],
       "solutions": [
         {
+          "id":"get_keys",
           "name":"Get the keys to the deposit boxes.",
           "type":"assigned",
           "traits": {
@@ -55,6 +62,7 @@
           }
         },
         {
+          "id":"break_in",
           "name":"Break into the deposit boxes.",
           "type":"assigned",
           "traits": {
@@ -70,6 +78,7 @@
       "reward_max": 500,
       "solutions": [
         {
+          "id":"charm_tellers",
           "name":"Ask the tellers nicely for their money.",
           "type":"assigned",
           "traits": {
@@ -77,6 +86,7 @@
           }
         },
         {
+          "id":"force_tellers",
           "name":"You asked nicely, now they get what's coming to them.",
           "type":"assigned",
           "traits": {
@@ -90,6 +100,7 @@
       "name":"The Getaway",
       "solutions":[
         {
+          "id":"drive_well",
           "name":"Get back to the hideout.",
           "type":"assigned",
           "traits": {
@@ -97,6 +108,7 @@
           }
         },
         {
+          "id":"shootout",
           "name":"Shootout.",
           "type":"all",
           "traits": {
@@ -111,7 +123,7 @@
       "id":"cops",
       "name":"Cops!",
       "description":"Cops are on your tail, let's hope our getaway team has what it takes.",
-      "objective":"getaway",
+      "objectives":"getaway",
       "chance":50,
       "traits": {
         "getaway": 3
@@ -121,7 +133,7 @@
       "id":"undercover_cop",
       "name":"Undercover Cop",
       "description":"There was an undercover cop in the bank!",
-      "objective":"guns",
+      "objectives":"guards",
       "chance":25,
       "traits":{
         "force":5,
