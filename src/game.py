@@ -1,5 +1,14 @@
 import cmd, json
 
+assets = []
+
+
+def get_asset(asset_id):
+    for asset in assets:
+        if asset_id == asset.asset_id:
+            return asset
+
+
 class game_cmd(cmd.Cmd, object):
 
     # example to create a command in interpreter

@@ -1,0 +1,10 @@
+{
+  "id":"motorcycle",
+  "category":"vehicle",
+  "name":"Motorcycle",
+  "description":"Can seat 2, can't haul anything, but is very fast and maneuverable",
+  "price":50,
+  "traits":{
+    "getaway":3
+  }
+}
