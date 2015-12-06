@@ -6,22 +6,17 @@ class Goon(object):
     Name, skills, etc.
     """
 
-    # todo: pull this data from goon.JSON
-    first_names = ["Grim", "Savvy", "Henry", "Granny"]
-    last_names = ["Hudson", "Midnight", "Samson", "Pendleton"]
-    archetypes = {
-        "Technician":"tech",
-        "Hitman":"force",
-        "Con Artist":"charm",
-        "Burglar":"stealth"
-    }
-    goon_traits = ["tech", "stealth", "force", "charm"]
 
-    def __init__(self, name=None):
-        if name:
-            self.name = name
-        else:
-            self.name = self.generateName()
+    def __init__(self):
+        # class data set by get_goon_data in Game class
+        self.first_names = self.goon_data["first_names"]
+        self.last_names = self.goon_data["last_names"]
+        self.archetypes = self.goon_data["archetypes"]
+        self.goon_traits = self.goon_data["goon_traits"]
+
+
+        # generate unique attributes for goon instance
+        self.name = self.generateName()
 
         self.type = self.generateType()
 

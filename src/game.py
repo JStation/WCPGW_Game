@@ -27,10 +27,11 @@ class Game(object):
                 return asset
 
     def load_goon_data(self):
-        self._goon_data = {}
+        goon_data = {}
         for json_file in Game.load_json_objects(self.PATH_GOON_DATA):
             for category in json_file:
-                self._goon_data[category] = json_file[category]
+                goon_data[category] = json_file[category]
+        Goon.goon_data = goon_data
 
     @staticmethod
     def load_json_objects(json_path):
