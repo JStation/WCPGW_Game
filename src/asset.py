@@ -9,3 +9,10 @@ class Asset(object):
         self._asset_id = asset_id
         self._name = name
         self._description = description
+
+    @classmethod
+    def from_json(cls, json_data):
+        return cls(
+            asset_id=json_data.id, name=
+        )
+
