@@ -142,7 +142,12 @@ class MissionAttempt(object):
                 continue
 
             self._narrative.add('Attempting objective: [%s]' % objective_squad.objective.name)
-            if objective_squad.attempt_objective():
+
+            complications, complication_traits = objective_squad.objective.get_complications()
+            for complication in complications:
+                self._narrative.add("We've ran into a bit of a problem, %s" % complication.name)
+
+            if objective_squad.attempt_objective(complication_traits):
                 self._narrative.add('The team succeeded [%s]!' % objective_squad.objective.name)
                 self._objective_results[objective_squad.objective.id] = True
                 reward = objective_squad.objective.get_reward()
@@ -169,10 +174,10 @@ class MissionObjectiveSquad(object):
     def add_goon(self, goon):
         self._goons.add(goon)
 
-    def attempt_objective(self):
+    def attempt_objective(self, complication_traits):
         for solution in self._objective.solutions:
             self._narrative.add('- The team has started [%s].' % solution.name)
-            if self.attempt_solution(solution):
+            if self.attempt_solution(solution, complication_traits):
                 self._narrative.add('-- The team succeeded [%s]!' % solution.name)
                 return True
             else:
@@ -182,18 +187,30 @@ class MissionObjectiveSquad(object):
             raise FailedCriticalObjective
         return False
 
-    def attempt_solution(self, solution):
+    def attempt_solution(self, solution, complication_traits):
         if solution.type == 'assigned':
             goon_traits = self._goons.traits
         else:
             goon_traits = self._mission.goons.traits
 
-        for trait in solution.traits:
+        if len(complication_traits) > 0:
+            traits_to_check = TraitList()
+            traits_to_check.add(solution.traits)
+            for trait in complication_traits:
+                if trait.trait in solution.traits:
+                    traits_to_check.add(trait)
+        else:
+            traits_to_check = solution.traits
+
+        for trait in traits_to_check:
             squad_trait = goon_traits.get(trait.trait)
             if squad_trait is None:
+                print 'Failed because goons do not have %s' % trait.trait
                 return False
 
-            if squad_trait.value < trait.roll():
+            roll = trait.roll()
+            print '** %s check: goons have %s, need at least %s' % (trait.trait, squad_trait.value, roll)
+            if squad_trait.value < roll:
                 return False
 
         return True

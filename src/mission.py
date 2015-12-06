@@ -1,5 +1,5 @@
 import random
-from traits import TraitRequirement
+from traits import TraitRange, TraitList
 
 
 class Mission(object):
@@ -29,6 +29,10 @@ class Mission(object):
     def objectives(self):
         return self._objectives
 
+    @property
+    def complications(self):
+        return self._complications
+
     def get_reward(self):
         return random.randint(self._reward_min, self._reward_max)
 
@@ -57,7 +61,7 @@ class Mission(object):
         )
 
         for objective in json_data['objectives']:
-            mission.add_objective(MissionObjective.from_json(objective))
+            mission.add_objective(MissionObjective.from_json(mission, objective))
 
         for complication in json_data['complications']:
             mission.add_complication(MissionComplication.from_json(complication))
@@ -66,7 +70,8 @@ class Mission(object):
 
 
 class MissionObjective(object):
-    def __init__(self, objective_id, name, can_fail, objectives_required, reward_min=0, reward_max=0):
+    def __init__(self, mission, objective_id, name, can_fail, objectives_required, reward_min=0, reward_max=0):
+        self._mission = mission
         self._id = objective_id
         self._name = name
         self._can_fail = can_fail
@@ -101,9 +106,24 @@ class MissionObjective(object):
     def add_solution(self, solution):
         self._solutions.append(solution)
 
+    def get_complications(self):
+        complications = set()
+        traits = TraitList()
+        for complication in self._mission.complications:
+            if self._id in complication.objectives:
+                if complication.roll():
+                    complications.add(complication)
+                    for solution in self._solutions:
+                        for trait in complication.traits:
+                            if trait in solution.traits:
+                                traits.add(trait)
+
+        return complications, traits
+
     @classmethod
-    def from_json(cls, json_data):
+    def from_json(cls, mission, json_data):
         objective = cls(
+            mission=mission,
             objective_id=json_data['id'],
             name=json_data['name'],
             can_fail=json_data.get('can_fail', True),
@@ -113,20 +133,19 @@ class MissionObjective(object):
         )
 
         for solution in json_data['solutions']:
-            objective.add_solution(MissionObjectiveSolution.from_json(solution))
+            objective.add_solution(MissionObjectiveSolution.from_json(mission, objective, solution))
 
         return objective
 
 
 class MissionObjectiveSolution(object):
-    def __init__(self, solution_id, name, type, traits=None):
+    def __init__(self, mission, objective, solution_id, name, type, traits=None):
+        self._mission = mission
+        self._objective = objective
         self._id = solution_id
         self._name = name
         self._type = type
-        self._traits = []
-
-        if traits is not None:
-            self._traits += traits
+        self._traits = traits
 
     @property
     def name(self):
@@ -141,10 +160,12 @@ class MissionObjectiveSolution(object):
         return self._traits
 
     @classmethod
-    def from_json(cls, json_data):
-        traits = TraitRequirement.list_from_json(json_data['traits'])
+    def from_json(cls, mission, objective, json_data):
+        traits = TraitList.list_from_json(json_data['traits'])
 
         solution = cls(
+            mission=mission,
+            objective=objective,
             solution_id=json_data['id'],
             name=json_data['name'],
             type=json_data['type'],
@@ -159,22 +180,38 @@ class MissionComplication(object):
         self._id = complication_id
         self._name = name
         self._description = description
-        self._objectives = []
+        self._objectives = set()
 
-        if isinstance(objectives, str):
-            self._objectives.append(objectives)
+        if isinstance(objectives, list):
+            for objective in objectives:
+                self._objectives.add(objective)
         else:
-            self._objectives += objectives
+            self._objectives.add(objectives)
 
         self._chance = chance
-        self._traits = []
+        self._traits = traits
 
-        if traits is not None:
-            self._traits += traits
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def objectives(self):
+        """
+        Returns a list of objective ids that this complication can occur in.
+        """
+        return self._objectives
+
+    @property
+    def traits(self):
+        return self._traits
+
+    def roll(self):
+        return int(self._chance) >= random.randint(1,100)
 
     @classmethod
     def from_json(cls, json_data):
-        traits = TraitRequirement.list_from_json(json_data['traits'])
+        traits = TraitList.list_from_json(json_data['traits'])
 
         complication = cls(
             complication_id=json_data['id'],

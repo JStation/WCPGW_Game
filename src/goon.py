@@ -68,7 +68,7 @@ class GoonGroup(object):
             for goon in self._goons:
                 for trait in goon.traits:
                     if trait not in self._traits:
-                        self._traits.add(Trait(trait.trait, trait.value))
+                        self._traits.add(trait.trait, trait.value)
 
                     group_trait = self._traits.get(trait.trait)
                     group_trait += trait

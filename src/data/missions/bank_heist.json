@@ -16,7 +16,7 @@
           "name":"Ask gaurds to lay on the floor with everyone else",
           "type":"assigned",
           "traits": {
-            "charm": "1-4"
+            "charm":"1-4"
           }
         },
         {
@@ -24,7 +24,7 @@
           "name":"Kill the guards",
           "type":"all",
           "traits": {
-            "force": "7-15"
+            "force":"7-15"
           }
         }
       ]
@@ -40,7 +40,7 @@
           "name":"Break into the vault",
           "type":"assigned",
           "traits": {
-            "tech": "2-5"
+            "tech":"2-5"
           },
           "assets": [
             "vault_tech"
@@ -62,7 +62,7 @@
           "name":"Get the keys to the deposit boxes.",
           "type":"assigned",
           "traits": {
-            "charm": "3-7"
+            "charm":"3-7"
           }
         },
         {
@@ -70,7 +70,7 @@
           "name":"Break into the deposit boxes.",
           "type":"assigned",
           "traits": {
-            "tech": "3-7"
+            "tech":"3-7"
           }
         }
       ]
@@ -86,7 +86,7 @@
           "name":"Ask the tellers nicely for their money.",
           "type":"assigned",
           "traits": {
-            "charm": "3-7"
+            "charm":"3-7"
           }
         },
         {
@@ -94,7 +94,7 @@
           "name":"You asked nicely, now they get what's coming to them.",
           "type":"assigned",
           "traits": {
-            "force": "3-7"
+            "force":"3-7"
           }
         }
       ]
@@ -109,7 +109,7 @@
           "name":"Get back to the hideout.",
           "type":"assigned",
           "traits": {
-            "getaway": "3-10"
+            "getaway":"3-10"
           }
         },
         {
@@ -117,7 +117,7 @@
           "name":"Shootout.",
           "type":"all",
           "traits": {
-            "charm": "15-25"
+            "force":"15-25"
           }
         }
       ]
@@ -126,12 +126,13 @@
   "complications": [
     {
       "id":"cops",
-      "name":"Cops!",
-      "description":"Cops are on your tail, let's hope our getaway team has what it takes.",
+      "name":"Tons of cops!",
+      "description":"Tons of cops are on your tail, let's hope our getaway team has what it takes.",
       "objectives":"getaway",
       "chance":50,
       "traits": {
-        "getaway": 3
+        "getaway":"2-5",
+        "force":"10-15"
       }
     },
     {
@@ -141,8 +142,7 @@
       "objectives":"guards",
       "chance":25,
       "traits":{
-        "force":5,
-        "getaway":5
+        "force":"1-4"
       }
     }
   ]
