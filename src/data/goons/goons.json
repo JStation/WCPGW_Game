@@ -1,0 +1,11 @@
+{
+  "first_names":["Grim", "Savvy", "Henry", "Granny", "Fritz"],
+  "last_names": ["Hudson", "Midnight", "Samson", "Pendleton"],
+  "archetypes": {
+        "Technician":"tech",
+        "Hitman":"force",
+        "Con Artist":"charm",
+        "Burglar":"stealth"
+  },
+  "goon_traits":["tech", "stealth", "charm", "force"]
+}
