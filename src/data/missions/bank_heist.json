@@ -9,13 +9,14 @@
     {
       "id":"guards",
       "name":"Take care of the guards",
+      "can_fail":false,
       "solutions":[
         {
           "id":"charm_guards",
           "name":"Ask gaurds to lay on the floor with everyone else",
           "type":"assigned",
           "traits": {
-            "charm": "1-3"
+            "charm": "1-4"
           }
         },
         {
@@ -23,7 +24,7 @@
           "name":"Kill the guards",
           "type":"all",
           "traits": {
-            "force": "5-10"
+            "force": "7-15"
           }
         }
       ]
@@ -31,24 +32,27 @@
     {
       "id":"vault",
       "name":"The Vault",
-      "reward_min": 1500,
-      "reward_max": 2500,
+      "reward_min": 3500,
+      "reward_max": 5500,
       "solutions": [
         {
           "id":"break_in",
           "name":"Break into the vault",
           "type":"assigned",
           "traits": {
-            "tech": "1-5"
-          }
+            "tech": "2-5"
+          },
+          "assets": [
+            "vault_tech"
+          ]
         }
       ]
     },
     {
       "id":"safety_deposit_boxes",
       "name":"Safety Deposit Boxes",
-      "reward_min": 1500,
-      "reward_max": 2500,
+      "reward_min": 500,
+      "reward_max": 1500,
       "objectives_required":[
         "vault"
       ],
@@ -74,8 +78,8 @@
     {
       "id":"teller_registers",
       "name":"Teller Registers",
-      "reward_min": 200,
-      "reward_max": 500,
+      "reward_min": 500,
+      "reward_max": 850,
       "solutions": [
         {
           "id":"charm_tellers",
@@ -98,6 +102,7 @@
     {
       "id":"getaway",
       "name":"The Getaway",
+      "can_fail":false,
       "solutions":[
         {
           "id":"drive_well",
@@ -112,7 +117,7 @@
           "name":"Shootout.",
           "type":"all",
           "traits": {
-            "charm": "3-10"
+            "charm": "15-25"
           }
         }
       ]

@@ -1,3 +1,5 @@
+from traits import TraitList, Trait
+
 
 class DuplicateAssetTrait(Exception):
     pass
@@ -15,12 +17,12 @@ class Asset(object):
         self._description = description
         self._category = category
         self._price = price
-        self._traits = {}
+        self._traits = TraitList()
 
     def add_trait(self, trait, value):
         if trait in self._traits:
             raise DuplicateAssetTrait
-        self._traits[trait] = value
+        self._traits.add(Trait(trait, value))
 
     @classmethod
     def from_json(cls, json_data):

@@ -1,0 +1,11 @@
+{
+  "id":"vault_drill_3000",
+  "category":"vault_tech",
+  "name":"Vault Drill 3000",
+  "description":"Allows a competent team to easily break into a vault.",
+  "chance_to_break":3,
+  "price":50000,
+  "traits":{
+    "tech":5
+  }
+}

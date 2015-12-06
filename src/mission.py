@@ -1,3 +1,5 @@
+import random
+from traits import TraitRequirement
 
 
 class Mission(object):
@@ -5,7 +7,7 @@ class Mission(object):
     Mission requirements, objectives, etc.
     """
     def __init__(self, mission_id, name, description, category, reward_min, reward_max):
-        self._mission_id = mission_id
+        self._id = mission_id
         self._name = name
         self._description = description
         self._category = category
@@ -13,13 +15,35 @@ class Mission(object):
         self._reward_max = reward_max
 
         self._objectives = []
-        self._complications = []
+        self._complications = set()
+
+    @property
+    def id(self):
+        return self._id
+    
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def objectives(self):
+        return self._objectives
+
+    def get_reward(self):
+        return random.randint(self._reward_min, self._reward_max)
 
     def add_objective(self, objective):
         self._objectives.append(objective)
 
+    def get_objective(self, objective_id):
+        for objective in self._objectives:
+            if objective.id == objective_id:
+                return objective
+
+        return None
+
     def add_complication(self, complication):
-        self._complications.append(complication)
+        self._complications.add(complication)
 
     @classmethod
     def from_json(cls, json_data):
@@ -28,8 +52,8 @@ class Mission(object):
             name=json_data['name'],
             description=json_data['description'],
             category=json_data['category'],
-            reward_min=json_data['reward_min'],
-            reward_max=json_data['reward_max']
+            reward_min=json_data.get('reward_min', 0),
+            reward_max=json_data.get('reward_max', 0)
         )
 
         for objective in json_data['objectives']:
@@ -42,12 +66,37 @@ class Mission(object):
 
 
 class MissionObjective(object):
-    def __init__(self, objective_id, name, reward_min=0, reward_max=0):
+    def __init__(self, objective_id, name, can_fail, objectives_required, reward_min=0, reward_max=0):
         self._id = objective_id
         self._name = name
+        self._can_fail = can_fail
+        self._objectives_required = objectives_required
         self._reward_min = reward_min
         self._reward_max = reward_max
         self._solutions = []
+
+    @property
+    def id(self):
+        return self._id
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def can_fail(self):
+        return self._can_fail
+
+    @property
+    def objectives_required(self):
+        return self._objectives_required
+
+    @property
+    def solutions(self):
+        return self._solutions
+
+    def get_reward(self):
+        return random.randint(self._reward_min, self._reward_max)
 
     def add_solution(self, solution):
         self._solutions.append(solution)
@@ -57,8 +106,10 @@ class MissionObjective(object):
         objective = cls(
             objective_id=json_data['id'],
             name=json_data['name'],
-            reward_min=getattr(json_data, 'reward_min', 0),
-            reward_max=getattr(json_data, 'reward_max', 0)
+            can_fail=json_data.get('can_fail', True),
+            objectives_required=json_data.get('objectives_required', []),
+            reward_min=json_data.get('reward_min', 0),
+            reward_max=json_data.get('reward_max', 0),
         )
 
         for solution in json_data['solutions']:
@@ -76,6 +127,18 @@ class MissionObjectiveSolution(object):
 
         if traits is not None:
             self._traits += traits
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def type(self):
+        return self._type
+
+    @property
+    def traits(self):
+        return self._traits
 
     @classmethod
     def from_json(cls, json_data):
