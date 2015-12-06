@@ -1,7 +1,8 @@
-import cmd, json
+import cmd
+from Goon import Goon
+
 
 assets = []
-
 
 def get_asset(asset_id):
     for asset in assets:
@@ -10,6 +11,10 @@ def get_asset(asset_id):
 
 
 class game_cmd(cmd.Cmd, object):
+
+    def do_newgoon(self, s):
+        g = Goon()
+        print("Name: %s\nType: %s" % (g.name, g.type))
 
     # example to create a command in interpreter
     # anything with a do_ prefix is a command
