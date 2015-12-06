@@ -1,35 +1,3 @@
-import random
-
-
-class TraitRequirement(object):
-    """
-    Max can be 0, in which case we always return min
-    This allows us to have flat requirements on some things
-    """
-
-    def __init__(self, trait, min, max):
-        self._trait = trait
-        self._min = int(min)
-        self._max = int(max)
-
-    def roll(self):
-        if self._max == 0:
-            return self._min
-        else:
-            return random.randint(self._min, self._max)
-
-    @classmethod
-    def list_from_json(cls, json_data):
-        traits = []
-
-        for t,r in json_data.items():
-            if isinstance(r, int):
-                trait = cls(t, r, 0)
-            else:
-                trait = cls(t, *r.split('-'))
-            traits.append(trait)
-
-        return traits
 
 
 class Mission(object):
