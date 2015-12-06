@@ -17,7 +17,6 @@ class Game(object):
 
     def load_assets(self):
         for asset in Game.load_json_objects(self.PATH_ASSETS):
-            print asset
             self._assets.append(Asset.from_json(asset))
 
     def get_asset(self, asset_id):

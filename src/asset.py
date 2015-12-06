@@ -24,20 +24,6 @@ class Asset(object):
 
     @classmethod
     def from_json(cls, json_data):
-        """
-        {
-          "id":"motorcycle",
-          "category":"vehicle",
-          "name":"Motorcycle",
-          "description":"Can seat 2, can't haul anything, but is very fast and maneuverable",
-          "price":50,
-          "traits":{
-            "getaway":3
-          }
-        }
-        :param json_data:
-        :return:
-        """
         asset = cls(
             asset_id=json_data['id'],
             name=json_data['name'],
