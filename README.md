@@ -1,2 +1,2 @@
 # What Could Possibly Go Wrong
-Squad selection game in Pygame
+Squad selection game in Python
